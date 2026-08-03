@@ -112,6 +112,28 @@ window.loginPatient = async function () {
     const data = {
       email,
       password
+    };
+
+    const response = await patientLogin(data);
+
+    if (response.ok) {
+      const result = await response.json();
+
+      localStorage.setItem("token", result.token);
+      selectRole("loggedPatient");
+      window.location.href = "/pages/loggedPatientDashboard.html";
+    } else {
+      alert("❌ Invalid credentials!");
+    }
+  } catch (error) {
+    console.error("Error :: loginPatient ::", error);
+    alert("❌ Failed to Login: " + error.message);
+  }
+};   const password = document.getElementById("password").value;
+
+    const data = {
+      email,
+      password
     }
     console.log("loginPatient :: ", data)
     const response = await patientLogin(data);

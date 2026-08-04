@@ -1,0 +1,26 @@
+name: Lint Backend
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Run Checkstyle
+        working-directory: app
+        run: |
+          mkdir checkstyle
+          curl -L -o checkstyle/checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
+          java -jar checkstyle/checkstyle.jar -c /google_checks.xml src

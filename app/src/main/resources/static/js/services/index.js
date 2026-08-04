@@ -59,7 +59,7 @@ window.doctorLoginHandler = async function () {
   const password = document.getElementById("password").value;
 
   const doctor = {
-    email,
+    identifier: email,
     password
   };
 

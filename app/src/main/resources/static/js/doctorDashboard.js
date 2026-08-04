@@ -43,11 +43,15 @@ if (datePicker) {
 
 async function loadAppointments() {
   try {
-    const appointments = await getAllAppointments(
-      selectedDate,
-      patientName,
-      token
+    const result = await getAllAppointments(
+        selectedDate,
+        patientName,
+        token
     );
+
+    const appointments = Array.isArray(result)
+        ? result
+        : result.appointments || [];
 
     patientTableBody.innerHTML = "";
 
@@ -70,7 +74,11 @@ async function loadAppointments() {
         email: appointment.patient.email
       };
 
-      const row = createPatientRow(patient, appointment);
+      const row = createPatientRow(
+        patient,
+        appointment.id,
+        appointment.doctor.id
+      );
       patientTableBody.appendChild(row);
     });
   } catch (error) {
